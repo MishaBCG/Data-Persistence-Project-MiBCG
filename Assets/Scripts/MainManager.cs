@@ -10,6 +10,9 @@ public class MainManager : MonoBehaviour
     public int LineCount = 6;
     public Rigidbody Ball;
 
+    public Text bestScore;
+
+    // это обычный счет
     public Text ScoreText;
     public GameObject GameOverText;
     
