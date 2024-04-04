@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,10 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text bestScore;
+    private string Name;
+
+
+
 
     // это обычный счет
     public Text ScoreText;
@@ -25,6 +30,8 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Name = MainMenu.namePlayer;
+        bestScore.text = $"Best score {ForSave.instance.namePlayer}: {ForSave.instance.ScoreToSave}";
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -48,7 +55,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 m_Started = true;
-                float randomDirection = Random.Range(-1.0f, 1.0f);
+                float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
 
@@ -73,7 +80,17 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        int score = m_Points;
+        if(score > ForSave.instance.ScoreToSave)
+        {
+            bestScore.text = $"Best Score {Name}: {score}";
+            ForSave.instance.namePlayer = Name;
+            ForSave.instance.ScoreToSave = score;
+            ForSave.instance.SaveGame();
+            Debug.Log("I save best score");      
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
+
     }
 }
